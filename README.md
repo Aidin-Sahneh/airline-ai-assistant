@@ -5,7 +5,7 @@ An AI-powered customer support assistant for an airline. This project demonstrat
 This project was developed as part of the "LLM Engineering" course by Ed Donner on Udemy.
 
 ## Key Features
-
+![Airline AI Assistant Demo](demo.gif)
 * **OpenAI Tool Integration:** Utilizes the OpenAI API `tools` parameter to connect the LLM to custom Python functions.
 * **Database Interaction:** Implements functions for the AI to query and update a SQLite database (e.g., `get_ticket_price` and `set_ticket_price`).
 * **Interactive Web Interface:** A clean, responsive chat UI built with Gradio for user interaction.
