@@ -2,7 +2,6 @@
 
 An AI-powered customer support assistant for an airline. This project demonstrates the implementation of OpenAI's tool-calling capabilities to enable a large language model to interact with an external SQLite database for retrieving and managing ticket prices. The application is served via a Gradio web interface.
 
-This project was developed as part of the "LLM Engineering" course by Ed Donner on Udemy.
 
 ## Key Features
 ![Airline AI Assistant Demo](demo.gif)
