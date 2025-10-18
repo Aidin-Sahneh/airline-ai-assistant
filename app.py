@@ -22,16 +22,19 @@ Always be accurate. If you don't know the answer, say so.
 # --- 3. Tool Implementations (Python Functions) ---
 # These are the actual Python functions the LLM can ask us to run.
 
-def get_ticket_price(city):
-    print(f"DATABASE TOOL CALLED: Getting price for {city}", flush=True)
+def get_ticket_price(destination_city): # <--- This is CORRECT
+    print(f"DATABASE TOOL CALLED: Getting price for {destination_city}", flush=True)
     with sqlite3.connect(DB_FILE) as conn:
         cursor = conn.cursor()
-        cursor.execute('SELECT price FROM prices WHERE city = ?', (city.lower(),))
+        # Use the renamed variable here
+        cursor.execute('SELECT price FROM prices WHERE city = ?', (destination_city.lower(),)) 
         result = cursor.fetchone()
         if result:
-            return f"The ticket price to {city} is ${result[0]}."
+            # And here
+            return f"The ticket price to {destination_city} is ${result[0]}." 
         else:
-            return f"No price data available for {city}."
+            # And here
+            return f"No price data available for {destination_city}."
 
 def set_ticket_price(city, price):
     print(f"DATABASE TOOL CALLED: Setting price for {city} to ${price}", flush=True)
@@ -71,7 +74,8 @@ tools = [
         "type": "function",
         "function": {
             "name": "set_ticket_price",
-            "description": "Set or update the price of a ticket for a specific city. This is an admin-only action.",
+            # THE FIX IS HERE: "admin-only" text is removed.
+            "description": "Set or update the price of a ticket for a specific city.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -145,6 +149,12 @@ def chat(message, history):
         message = response.choices[0].message
         tool_responses = handle_tool_calls(message)
         
+        if not tool_responses:
+            print("Error: Tool call failed, breaking loop.")
+            # Handle the case where handle_tool_calls returns empty
+            # You might want to return an error message to the user
+            return "An error occurred while trying to use a tool."
+
         messages.append(message)
         messages.extend(tool_responses)
         
